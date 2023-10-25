@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SkillBase</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">SkillBase</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item dropdown ">
+          {{#each User}}
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Hey, {{this.name}}
+          </a>
+          {{/each}}
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a id="logout_button" class="dropdown-item" href="/login">Log Out</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+{{!-- navbar end --}}
+
+{{#each User}}
+<form action="/company-match?email={{this.email}}" method="post">    
+<input type="submit" name="submit" id="submit" value="Search Jobs">
+</form>
+{{/each}}
+
+{{!-- Experience form --}}
+{{#each User}}
+<div class="form-parent">
+  <div class="form-popup" id="myForm">
+    <form action="/addWork?email={{this.email}}" method="post" class="form-container">
+      <div class="form-head">
+      <h3>Add experience</h3>
+      <button type="button" class="btn cancel" onclick="closeExpForm()">Close</button>
+      </div>
+
+      <input type="text" placeholder="Job Role" name="jobRole" required>
+
+      <input type="text" placeholder="Company" name="company" required>
+
+      <textarea name="jobDesc" id="myTextArea" rows="2" placeholder="Job Description"></textarea>
+      <div class="flex">
+        <input type="date" placeholder="Start Date" name="startDate" required>
+        <input type="date" placeholder="End Date" name="endDate" required>
+      </div>
+
+      <button type="submit" class="save-btn">Save</button>
+    </form>
+  </div>
+  </div>
+  {{/each}}
+
+
+  {{!-- Experience edit --}}
+  {{#each WorkExperiences}}
+  <div class="form-parent">
+  <div class="form-popup" id="myFormEdit{{this._id}}">
+    <form action="/updateWork?id={{this._id}}&email={{this.email}}" method="post" class="form-container">
+      <div class="form-head">
+      <h3>Update Experience</h3>
+      <button type="button" class="btn cancel" onclick="closeExpEditForm{{this._id}}()">Close</button>
+      </div>
+
+      <input type="text" placeholder="Job Role" name="jobRole" value="{{this.jobRole}}" required>
+
+      <input type="text" placeholder="Company" name="company" value="{{this.company}}" required>
+
+      <textarea name="jobDesc" id="myTextArea" rows="2" placeholder="Job Description">{{this.jobDescription}}</textarea>
+          <div class="flex">
+            <label style="margin-left:1rem;">Start Date</label>
+            <label style="margin-left:10.2rem;">End Date</label>
+          </div>
+      <div class="flex">
+          <input type="date" placeholder="Start Date" name="startDate" value="{{this.startDate}}" required>
+          <input type="date" placeholder="End Date" name="endDate" value="{{this.endDate}}" required>
+      </div>
+
+      <div style="display: flex; flex-direction:row;">
+        <button type="submit" class="save-btn">Save</button>
+      </form>
+        <form action="/deleteWork?id={{this._id}}&email={{this.email}}" method="post">
+          <button type="submit" class="del-btn" style="background-color: red;"><i class="fa-sharp fa-solid fa-trash" style="color: #ffffff;"></i></button>
+        </form>
+      </div>
+  </div>
+  </div>
+  {{/each}}
+
+{{!-- Skill form --}}
+{{#each User}}
+<div class="form-parent">
+  <div class="form-popup" id="skillForm">
+    <form action="/addSkill?email={{this.email}}" method="post" class="form-container">
+      <div class="form-head">
+      <h3>Add Skill</h3>
+      <button type="button" class="btn cancel" onclick="closeSkillForm()">Close</button>
+      </div>
+
+      <input type="text" placeholder="Skill Name" name="skillName" required>
+
+      <input type="text" placeholder="Learned From" name="learnFrom" required>
+
+      <textarea name="skillDesc" id="myTextArea" rows="2" placeholder="Skill Description"></textarea>
+      <div class="flex">
+        <input type="date" placeholder="Start Date" name="startDate" required>
+        <input type="date" placeholder="End Date" name="endDate" required>
+      </div>
+
+      <button type="submit" class="save-btn">Save</button>
+    </form>
+  </div>
+  </div>
+  {{/each}}
+
+  {{!-- Skill edit --}}
+  {{#each Skill}}
+  <div class="form-parent">
+  <div class="form-popup" id="skillFormEdit{{this._id}}">
+    <form action="/updateSkill?id={{this._id}}&email={{this.email}}" method="post" class="form-container">
+      <div class="form-head">
+      <h3>Update Skill</h3>
+      <button type="button" class="btn cancel" onclick="closeSkillEditForm{{this._id}}()">Close</button>
+      </div>
+
+      <input type="text" placeholder="Skill Name" name="skillName" value="{{this.skillName}}" required>
+
+      <input type="text" placeholder="Learned From" name="learnFrom" value="{{this.learnFrom}}" required>
+
+      <textarea name="skillDesc" id="myTextArea" rows="2" placeholder="Job Description">{{this.skillDesc}}</textarea>
+          <div class="flex">
+            <label style="margin-left:1rem;">Start Date</label>
+            <label style="margin-left:10.2rem;">End Date</label>
+          </div>
+      <div class="flex">
+          <input type="date" placeholder="Start Date" name="startDate" value="{{this.startDate}}" required>
+          <input type="date" placeholder="End Date" name="endDate" value="{{this.endDate}}" required>
+      </div>
+
+      <div style="display: flex; flex-direction:row;">
+        <button type="submit" class="save-btn">Save</button>
+      </form>
+        <form action="/deleteSkill?id={{this._id}}&email={{this.email}}" method="post">
+          <button type="submit" class="del-btn" style="background-color: red;"><i class="fa-sharp fa-solid fa-trash" style="color: #ffffff;"></i></button>
+        </form>
+      </div>
+  </div>
+  </div>
+  {{/each}}
+
+  {{!-- Test form --}}
+  {{#each User}}
+  <div class="form-parent">
+  <div class="form-popup" id="testForm">
+    <form action="/addTest?email={{this.email}}" method="post" class="form-container">
+      <div class="form-head">
+      <h3>Add Test Details</h3>
+      <button type="button" class="btn cancel" onclick="closeTestForm()">Close</button>
+      </div>
+
+      <input type="text" placeholder="Test Name" name="testName" required>
+
+      <input type="number" placeholder="Score" name="testScore" required>
+
+      <div class="flex">
+      <input type="date" placeholder="Test Date" name="testDate" required>
+        <span></span>
+      </div>
+
+      <button type="submit" class="save-btn">Save</button>
+    </form>
+  </div>
+  </div>
+  {{/each}}
+
+  {{!-- Test Edit --}}
+  {{#each Test}}
+  <div class="form-parent">
+  <div class="form-popup" id="testedit{{this._id}}">
+    <form action="/updateTest?id={{this._id}}&email={{this.email}}" method="post" class="form-container">
+      <div class="form-head">
+      <h3>Update Test Details</h3>
+      <button type="button" class="btn cancel" onclick="closeTestEditForm{{this._id}}()">Close</button>
+      </div>
+
+      <input type="text" placeholder="Test Name" name="testName" value="{{this.testName}}" required>
+
+      <input type="number" placeholder="Score" name="testScore" value="{{this.score}}" required>
+
+      <div class="flex">
+      <input type="date" placeholder="Test Date" name="testDate" value="{{this.date}}" required>
+        <span></span>
+      </div>
+
+  <div style="display: flex; flex-direction:row;">
+        <button type="submit" class="save-btn">Save</button>
+      </form>
+        <form action="/deleteTest?id={{this._id}}&email={{this.email}}" method="post">
+          <button type="submit" class="del-btn" style="background-color: red;"><i class="fa-sharp fa-solid fa-trash" style="color: #ffffff;"></i></button>
+        </form>    
+        </div>
+  </div>
+  </div>
+  {{/each}}
+
+  {{!-- Education form create --}}
+  {{#each User}}
+  <div class="edu-parent">
+  <div class="edu-popup" id="eduForm">
+    <form action="/addEducation?email={{this.email}}" method="post" class="form-container">
+      <div class="form-head">
+      <h3>Add Education</h3>
+      <button type="button" class="btn cancel" onclick="closeEduForm()">Close</button>
+      </div>
+      <select name="level" id="" required>
+        <option selected>Level</option>
+        <option value="10th">10th</option>
+        <option value="12th">12th</option>
+        <option value="Graduation">Graduation</option>
+        <option value="Post Graduation">Post Graduation</option>
+      </select>
+      <input type="text" placeholder="Course Name" name="course" required>
+      <input type="text" placeholder="City Of Education" name="eduCity" required>
+
+      <input type="text" placeholder="State Of Education" name="eduState" required>
+      <input type="text" placeholder="Country Of Education" name="eduCountry" required>
+      <input type="text" placeholder="School Name" name="eduSchool" required>
+      <select name="gradingSystem" id="" required>
+        <option selected>Grading System</option>
+        <option value="100%">Percentage (100%)</option>
+        <option value="10 CGPA">CGPA (Base 10)</option>
+        <option value="5 CGPA">CGPA (Base 5)</option>
+      </select>
+      <input type="text" placeholder="University / College" name="eduCollege" required>
+      <input type="text" placeholder="Field of Study" name="eduField" required>
+
+      <input type="number" placeholder="Achieved Marks" name="eduMarks" required>
+      <input type="text" placeholder="Language of Instruction" name="eduLang" required>
+
+
+      <div class="flex">
+        <input type="date" placeholder="Start Date" name="startDate" required>
+        <input type="date" placeholder="End Date" name="endDate" required>
+      </div>
+
+      <button type="submit" class="save-btn">Save</button>
+    </form>
+  </div>
+  </div>
+  {{/each}}
+
+  {{!-- education Edit --}}
+  {{#each Education}}
+  <div class="edu-parent">
+  <div class="edu-popup" id="eduEdit{{this._id}}">
+    <form action="/updateEducation?id={{this._id}}&email={{this.email}}" method="post" class="form-container">
+      <div class="form-head">
+      <h3>Update Education</h3>
+      <button type="button" class="btn cancel" onclick="closeEduEditForm{{this._id}}()">Close</button>
+      </div>
+      <select name="level" id="" required>
+        <option selected value="{{this.level}}">{{this.level}}</option>
+        <option value="10th">10th</option>
+        <option value="12th">12th</option>
+        <option value="Graduation">Graduation</option>
+        <option value="Post Graduation">Post Graduation</option>
+      </select>
+      <input type="text" placeholder="Course Name" name="course" value="{{this.course}}" required>
+      <input type="text" placeholder="City Of Education" name="eduCity" value="{{this.city}}" required>
+
+      <input type="text" placeholder="State Of Education" name="eduState" value="{{this.state}}" required>
+      <input type="text" placeholder="Country Of Education" name="eduCountry" value="{{this.country}}" required>
+      <input type="text" placeholder="School Name" name="eduSchool" value="{{this.school}}" required>
+      <select name="gradingSystem" id="" required>
+        <option selected value="{{this.grading}}">{{this.grading}}</option>
+        <option value="percentage">Percentage (100%)</option>
+        <option value="CGPAb10">CGPA (Base 10)</option>
+        <option value="CGPAb5">CGPA (Base 5)</option>
+      </select>
+      <input type="text" placeholder="University / College" name="eduCollege" value="{{this.university}}" required>
+      <input type="text" placeholder="Field of Study" name="eduField" value="{{this.field}}" required>
+
+      <input type="number" placeholder="Achieved Marks" name="eduMarks" value="{{this.marks}}" required>
+      <input type="text" placeholder="Language of Instruction" name="eduLang" value="{{this.language}}" required>
+
+      <div class="flex">
+        <input type="date" placeholder="Start Date" name="startDate" value="{{this.startDate}}" required>
+        <input type="date" placeholder="End Date" name="endDate" value="{{this.endDate}}" required>
+      </div>
+      <div style="display: flex; flex-direction:row;">
+        <button type="submit" class="save-btn">Save</button>
+    </form>
+        <form action="/deleteEdu?id={{this._id}}&email={{this.email}}" method="post">
+          <button type="submit" class="del-btn" style="background-color: red;"><i class="fa-sharp fa-solid fa-trash" style="color: #ffffff;"></i></button>
+        </form>    
+        </div>
+  </div>
+  </div>
+  {{/each}}
+
+  <div class="profile">
+    {{!-- personal info --}}
+  {{#each User}}
+  <div class="card border-0">
+    <div class="card-header work">
+      <span>Personal Information</span>
+      <button class="plus" onclick="openExpForm()"><i class="fa-regular fa-plus"></i></button>
+    </div>
+    <div class="card-header personal border-0">
+      {{this.name}}
+      <span>
+      </span>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item border-0">
+        <div class="details01">
+          <span></span>
+          <span><i class="fa-regular fa-envelope"></i>  {{this.email}}</span>
+          <span><i class="fa-solid fa-phone"></i> {{this.phone}}</span>
+          <span><i class="fa-brands fa-whatsapp"></i> {{this.whatsapp}}</span>
+        </div>
+        </li>
+      <li class="list-group-item">
+        <div class="details02">
+          <span></span>
+          <span><i class="fa-solid fa-location-dot"></i>  {{this.country}}</span>
+          <span><i class="fa-solid fa-venus-mars"></i> {{this.gender}}</span>
+          <span><i class="fa-solid fa-rings-wedding"></i> {{this.marriage}}</span>
+        </div>
+      </li>
+    </ul>
+    {{/each}}
+  </div>
+
+
+  {{!-- Work Exp --}}
+  <div class="card border-0">
+    <div class="card-header work">
+      <span>Experience</span>
+      <button class="plus" onclick="openExpForm()"><i class="fa-regular fa-plus"></i></button>
+    </div>
+    <ul class="list-group list-group-flush">
+      {{#each WorkExperiences}}
+      <li class="list-group-item ">
+        <div class="details03-parent">
+        <div class="details03">
+            <span><i class="fa-solid fa-briefcase"></i></span>
+          <div class="edu-main" >
+            <span ><h4 class="word-detail">{{this.jobRole}}</h4></span>
+            <span class="word-detail">{{this.company}}</span>
+            <span class="word-detail">{{this.startDate}} - {{this.endDate}}</span>
+            <span class="word-detail">{{this.jobDescription}}</span>
+          </div>
+          
+        </div>
+          <button onclick="openExpEditForm{{this._id}}()" style="border: none; background-color:white;">
+          <i class="fa-solid fa-pen-to-square reg"></i>
+        </button>
+        </div>
+        </li>
+        {{/each}}
+    </ul>
+  </div>
+
+  {{!-- Education --}}
+  <div class="card border-0">
+    <div class="card-header work">
+      <span>Education</span>
+      <button class="plus" onclick="openEduForm()"><i class="fa-regular fa-plus"></i></button>
+    </div>
+    <ul class="list-group list-group-flush">
+      {{#each Education}}
+      <li class="list-group-item ">
+        <div class="details03-parent">
+        <div class="details03">
+            <span><i class="fa-solid fa-graduation-cap"></i></span>
+          <div class="edu-main" >
+            <span ><h4 class="word-detail">{{this.course}} - {{this.field}}</h4></span>
+            <span class="word-detail">{{this.university}}, {{this.city}}, {{this.state}} ({{this.country}}) - {{this.marks}} (Out of {{this.grading}})</span>
+            <span class="word-detail">{{this.startDate}} - {{this.endDate}}</span>        </div>
+          
+        </div>
+        <button onclick="openEduEditForm{{this._id}}()" style="border: none; background-color:white;">
+          <i class="fa-solid fa-pen-to-square reg"></i>
+        </button>
+        </div>
+        </li>
+        {{/each}}
+    </ul>
+  </div>
+
+
+  {{!-- Skills --}}
+  <div class="card border-0">
+    <div class="card-header work">
+      <span>Skills</span>
+      <button class="plus" onclick="openSkillForm()"><i class="fa-regular fa-plus"></i></button>
+    </div>
+    <ul class="list-group list-group-flush">
+      {{#each Skill}}
+      <li class="list-group-item ">
+        <div class="details03-parent">
+        <div class="details03">
+            <span><i class="fa-solid fa-briefcase"></i></span>
+          <div class="edu-main" >
+            <span ><h4 class="word-detail">{{this.skillName}}</h4></span>
+            <span class="word-detail">{{this.learnFrom}}</span>
+            <span class="word-detail">{{this.startDate}} - {{this.endDate}}</span>
+            <span class="word-detail">{{this.skillDesc}}</span>
+          </div>
+          
+        </div>
+          <button onclick="openSkillEditForm{{this._id}}()" style="border: none; background-color:white;">
+          <i class="fa-solid fa-pen-to-square reg"></i>
+        </button>
+        </div>
+        </li>
+        {{/each}}
+    </ul>
+  </div>
+
+  {{!-- Test scores --}}
+  <div class="card border-0">
+    <div class="card-header work">
+      <span>Test Scores</span>
+      <button class="plus" onclick="openTestForm()"><i class="fa-regular fa-plus"></i></button>
+    </div>
+    <ul class="list-group list-group-flush">
+      {{#each Test}}
+      <li class="list-group-item ">
+        <div class="test">
+          <div class="test01">
+            <span style="margin-right: 6rem;">{{this.testName}}</span>
+            <span>{{this.score}}</span>
+          </div>
+          <div class="test02">
+            <span style="margin-right: 1.5rem;">{{this.date}}</span>
+            <button onclick="openTestEditForm{{this._id}}()" style="border: none; background-color:white;">
+              <i class="fa-solid fa-pen-to-square reg"></i>
+            </button>
+          </div>
+        </div>
+        </li>
+        {{/each}}
+    </ul>
+  </div>
+
+  </div>
+
+{{!-- scripts --}}
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>  
+<script>
+
+  function openExpForm() {
+    document.getElementById("myForm").style.display = "block";
+  }
+  
+  function closeExpForm() {
+    document.getElementById("myForm").style.display = "none";
+  }
+  {{#each WorkExperiences}}
+  function openExpEditForm{{this._id}}() {
+    document.getElementById("myFormEdit{{this._id}}").style.display = "block";
+  }
+  
+  function closeExpEditForm{{this._id}}() {
+    document.getElementById("myFormEdit{{this._id}}").style.display = "none";
+  }
+  {{/each}}
+
+ //Skill
+
+  function openSkillForm() {
+    document.getElementById("skillForm").style.display = "block";
+  }
+  
+  function closeSkillForm() {
+    document.getElementById("skillForm").style.display = "none";
+  }
+  {{#each Skill}}
+
+  function openSkillEditForm{{this._id}}() {
+  const element = document.getElementById(`skillFormEdit{{this._id}}`);
+  console.log(element);
+  if (element) {
+    element.style.display = "block";
+  }
+  else{
+    console.log("No element")
+  }
+}
+  
+  function closeSkillEditForm{{this._id}}() {
+    document.getElementById("skillFormEdit{{this._id}}").style.display = "none";
+  }
+  {{/each}}
+  
+//Education
+
+  function openEduForm() {
+    document.getElementById("eduForm").style.display = "block";
+  }
+  
+  function closeEduForm() {
+    document.getElementById("eduForm").style.display = "none";
+  }
+  {{#each Education}}
+  function openEduEditForm{{this._id}}() {
+    document.getElementById("eduEdit{{this._id}}").style.display = "block";
+  }
+  
+  function closeEduEditForm{{this._id}}() {
+    document.getElementById("eduEdit{{this._id}}").style.display = "none";
+  }
+  {{/each}}
+  function openTestForm() {
+    document.getElementById("testForm").style.display = "block";
+  }
+  
+  function closeTestForm() {
+    document.getElementById("testForm").style.display = "none";
+  }
+  {{#each Test}}
+  function openTestEditForm{{this._id}}() {
+    document.getElementById("testedit{{this._id}}").style.display = "block";
+  }
+  
+  function closeTestEditForm{{this._id}}() {
+    document.getElementById("testedit{{this._id}}").style.display = "none";
+  }
+  {{/each}}
+
+
+  </script>
+</body>
+</html>

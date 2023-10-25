@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width , initial-scale=1.0">
+        <title>Login Form</title>
+        <link href="/static/images/sipnalogo.png" rel="icon">
+        <link rel="stylesheet" href="/static/css/login.css">
+
+    </head>
+    <body>
+        <section>
+            <div class="form-container">
+                <h1>
+                    Login Admin
+                </h1>
+                <form class="form" action="/login" method="post">
+                    <div class="control">
+                        <b><label for="id">Email:</label></b>
+                        <input type="text" name="email" id="id">
+                    </div>
+
+                <div class="control">
+                    <b>  <label for="psw">Password</label></b>
+                     <input type="password" name="password" id="psw">
+                 </div>
+
+                    <div class="control">
+                        <input type="submit" value="Login">
+                    </div>
+
+                </form>
+                {{!-- <div class="link">
+                   <b> <a href="#" >Forget Password?</a></b>
+                    
+                </div>
+                <div class="link">
+                   <b> <a href="/newuser" >Create An Acoount</a></b>
+                    
+                </div> --}}
+
+
+
+            </div>
+        </section>
+    </body>
+</html>
