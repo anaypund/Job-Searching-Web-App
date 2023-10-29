@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const companySchema = new mongoose.Schema({
-    comapnyName:{
+    companyName:{
         type: String,
         required: true
     },
@@ -14,10 +14,22 @@ const companySchema = new mongoose.Schema({
         required: true
     },
     skillsReq:[{
-        type: Array,
+        type: String,
         required: true}
     ],
     jobDesc:{
+        type: String,
+        required: true
+    },
+    duration:{
+        type: String,
+        required: true
+    },
+    stipend:{
+        type: String,
+        required: true
+    },
+    location:{
         type: String,
         required: true
     },

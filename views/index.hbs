@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>SkillBase</title>
     <link rel="stylesheet" href="/static/css/style.css">
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,300;0,400;0,600;1,600&family=Poppins:wght@400;600;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </head>
@@ -24,8 +27,7 @@
           </a>
           {{/each}}
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
+
             <li><hr class="dropdown-divider"></li>
             <li><a id="logout_button" class="dropdown-item" href="/login">Log Out</a></li>
           </ul>
@@ -224,11 +226,11 @@
   {{#each User}}
   <div class="edu-parent">
   <div class="edu-popup" id="eduForm">
-    <form action="/addEducation?email={{this.email}}" method="post" class="form-container">
-      <div class="form-head">
+      <div class="form-head" style="padding: 1rem; background-color:#ffffff">
       <h3>Add Education</h3>
-      <button type="button" class="btn cancel" onclick="closeEduForm()">Close</button>
+      <button type="button" class="btn cancel" style="background-color: red; color: white" onclick="closeEduForm()">Close</button>
       </div>
+    <form action="/addEducation?email={{this.email}}" method="post" class="form-container">
       <select name="level" id="" required>
         <option selected>Level</option>
         <option value="10th">10th</option>
@@ -342,7 +344,7 @@
           <span></span>
           <span><i class="fa-solid fa-location-dot"></i>  {{this.country}}</span>
           <span><i class="fa-solid fa-venus-mars"></i> {{this.gender}}</span>
-          <span><i class="fa-solid fa-rings-wedding"></i> {{this.marriage}}</span>
+          <span><img src="static/images/rings.png" alt=""> {{this.marriage}}</span>
         </div>
       </li>
     </ul>
