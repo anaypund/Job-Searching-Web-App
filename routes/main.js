@@ -718,7 +718,7 @@ routes.post("/company-match", async (req, res) => {
             },
           },
         },
-      ]);
+      ]);   
       
       
       res.status(200).render("company-match", {
@@ -730,6 +730,16 @@ routes.post("/company-match", async (req, res) => {
       res.status(404).send(error.message);
     }
   });
+
+routes.post("/mail", (req, res) => {
+    let company_mail = req.query.companyMail;
+    let user_mail = req.query.userMail;
+    function openMailApplication() {
+        globalThis.window.location.href = `mailto:{{this.mail}}?subject=Requesting%20Job%20Application&body=Respected%20{{this.companyName}}%2C%0D%0A%0D%0AI%20am%20writing%20to%20express%20my%20strong%20interest%20in%20the%20{{this.jobTitle}}%20position%20at%20{{this.companyName}}.%20With%20experience%20in%2C%0D%0A%0D%0A%0D%0AI%20am%20confident%20in%20my%20ability%20to%20contribute%20to%20your%20team.%20Please%20find%20my%20attached%20resume%20for%20your%20review.%0D%0A%0D%0AThank%20you%20for%20considering%20my%20application.%20I%20look%20forward%20to%20the%20opportunity%20to%20discuss%20how%20my%20skills%20and%20experience%20align%20with%20your%20company's%20needs.%0D%0A%0D%0ASincerely%2C%0D%0A{{User.name}}`;
+      }
+      
+      globalThis.window.addEventListener('load', openMailApplication);
+})
   
 routes.get("/newuser", (req,res)=>{
     res.render("registration")

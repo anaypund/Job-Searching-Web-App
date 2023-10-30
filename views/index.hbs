@@ -12,8 +12,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
+    <nav class="navbar swondi navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid swondi">
     <a class="navbar-brand" href="#">SkillBase</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -37,12 +37,6 @@
   </div>
 </nav>
 {{!-- navbar end --}}
-
-{{#each User}}
-<form action="/company-match?email={{this.email}}" method="post">    
-<input type="submit" name="submit" id="submit" value="Search Jobs">
-</form>
-{{/each}}
 
 {{!-- Experience form --}}
 {{#each User}}
@@ -465,6 +459,19 @@
   </div>
 
   </div>
+
+<div class="search-jobs">
+  {{#each User}}
+    <form action="/company-match?email={{this.email}}" method="post">    
+        <button class="button-57" type="submit" name="submit" id="submit" role="button"><span class="text">Search Jobs</span><span>Ready</span></button>        
+    </form>
+  {{/each}}
+</div>
+
+
+
+
+  
 
 {{!-- scripts --}}
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>

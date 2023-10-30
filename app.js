@@ -1,7 +1,6 @@
 const express = require('express')
 const connectDB=require('./db/connect')
 const routes = require('./routes/main')
-const User = require('./models/user')
 const {default: mongoose}=require('mongoose')
 const hbs=require('hbs')
 
@@ -27,16 +26,7 @@ const start=async()=>{
     try {
         await connectDB(process.env.MONGO_URI)
         console.log('DataBase connected...')
-        // await User.create({
-        //     id: new mongoose.Types.ObjectId(),
-        // name:"Anay Pund",
-        // email:"anaypund@gmail.com",
-        // phone:"8087956867",
-        // whatsapp:"8087956867",
-        // country:"India",
-        // gender:"Male",
-        // marriage:"Unmarried",
-        //     })
+       
             app.listen(port, ()=>{
                 console.log(`listening on port ${port}`)
         })

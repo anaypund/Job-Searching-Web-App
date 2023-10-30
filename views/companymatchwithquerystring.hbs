@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,300;0,400;0,600;1,600&family=Poppins:wght@400;600;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />  </head>
-  <body class="body">
+  <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">SkillBase</a>
@@ -69,15 +69,37 @@
         <li class="skills-required">{{this}}</li>
       {{/each}}
       </ul>
-         <a href="mailto:{{this.mail}}?subject=Requesting%20Job%20Application&body=Respected%20{{this.companyName}}%2C%0D%0A%0D%0AI%20am%20writing%20to%20express%20my%20strong%20interest%20in%20the%20{{this.jobTitle}}%20position%20at%20{{this.companyName}}.%20With%20experience%20in%2C%0D%0A%0D%0A%0D%0AI%20am%20confident%20in%20my%20ability%20to%20contribute%20to%20your%20team.%20Please%20find%20my%20attached%20resume%20for%20your%20review.%0D%0A%0D%0AThank%20you%20for%20considering%20my%20application.%20I%20look%20forward%20to%20the%20opportunity%20to%20discuss%20how%20my%20skills%20and%20experience%20align%20with%20your%20company's%20needs.%0D%0A%0D%0ASincerely%2C%0D%0A{{User.name}}"><button class="SendEmail"><span class="text">Apply Now!</span><span>Lets Go</span></button></a>
+      <form  id="myForm" method="post">
+         <button onclick="get_action('{{this.mail}}')" type="submit" class="SendEmail" ><span class="text">Apply Now!</span><span>Lets Go</span></button>
+        </form>
     </div>
   </div>
 </div>
 {{/each}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script>
-     
+              
+        let user = getQuerystring();
+          function get_action(email){
+            document.getElementById('myForm').action = `/mail?companyMail=${email}&userMail=${user.email}`;
+          }
+
+        function getQuerystring() {
+    let output={}
+    if(window.location.search){
+    var queryParams = window.location.search.substring(1);
+    var listQueries = queryParams.split("&");
+        for(var query in listQueries) {
+        if (listQueries.hasOwnProperty(query)) {
+            var queryPair = listQueries[query].split('=');
+            output[queryPair[0]] = decodeURIComponent(queryPair[1] || "");
+        }
+    }
+    }
+    return output;
+        }
     </script>
+{{!-- <a href="mailto:{{this.mail}}?subject=Requesting%20Job%20Application&body=Respected%20{{this.companyName}}%2C%0D%0A%0D%0AI%20am%20writing%20to%20express%20my%20strong%20interest%20in%20the%20{{this.jobTitle}}%20position%20at%20{{this.companyName}}.%20With%20experience%20in%2C%0D%0A%0D%0A%0D%0AI%20am%20confident%20in%20my%20ability%20to%20contribute%20to%20your%20team.%20Please%20find%20my%20attached%20resume%20for%20your%20review.%0D%0A%0D%0AThank%20you%20for%20considering%20my%20application.%20I%20look%20forward%20to%20the%20opportunity%20to%20discuss%20how%20my%20skills%20and%20experience%20align%20with%20your%20company's%20needs.%0D%0A%0D%0ASincerely%2C%0D%0A{{User.name}}"> --}}
 
 </body>
 </html>
